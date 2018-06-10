@@ -1,0 +1,61 @@
+spring:
+#  application:
+#    name: order
+  cloud:
+    bus:
+      enabled: true
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIG
+      profile: test
+      fail-fast: true
+#      name: CONFIG
+      name: order
+  zipkin:
+    sender:
+      type: web
+    base-url: http://localhost:9411/ # zipkin的地址
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1
+# 百分之百地把信息输出出去
+#    stream:
+#      bindings:
+#        myBindRabbitMessage:
+#          group: order
+#          content-type: application/json
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh    #暴露节点bush-refresh
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+    getProductInfoList:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+feign:
+  hystrix:
+    enabled: true  # feign 启用服务降级
+  client:  #这里对该服务中的所有client的连接超时时间限制和读取超时时间限制都设置为5秒。（大哥，默认是一秒，心累啊）
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+logging:
+  level:
+    org.springframework.cloud.openfeign: debug  # 因为我们用的feign的注解FeignClient，所以需要把它包的日志级别调成debug。
