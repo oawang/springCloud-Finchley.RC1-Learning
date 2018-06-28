@@ -31,7 +31,7 @@ public class CorsConfig {
         config.setAllowedOrigins(Arrays.asList("*"));
 
 //        设置允许的头   *代表全部允许
-        config.setExposedHeaders(Arrays.asList("*"));
+//        config.setExposedHeaders(Arrays.asList("*"));
 
 //        设置允许访问的方法 GET、POST等等   * 代表全部允许
         config.setAllowedMethods(Arrays.asList("*"));
